@@ -2,6 +2,7 @@
 # encoding: UTF-8
 
 import numpy as np
+import sys
 
 
 M= [u"O peã e o caval são pec de xadrez. O caval é o melhor do jog.",
@@ -78,7 +79,7 @@ def list_and(lista1,lista2):
 		else:
 			resposta.append(0)
 	return resposta
-	
+
 def list_or(lista1,lista2):
 	resposta = []
 	for i in range(len(lista1)):
@@ -97,30 +98,33 @@ def list_not(lista):
 # mi = matriz de incidencia
 # t = lista de tokens 
 
+for i in range(len(tokens)):
+    sys.stdout.write(str(matriz_incidencia[i]))
+    print tokens[i]
+
 def process(mi,t,query):
 	lista_resposta = []
 	listand = query.split(' ')
 
-	print query
-	
+#	print query
+
 	if(len(listand) > 1):
 		lista_resposta = list_and(mi[t.index(listand[0])],mi[t.index(listand[1])])
 		for i in range(2,len(listand)):
 			print lista_resposta
 			lista_resposta = list_and(lista_resposta,mi[t.index(listand[i])])
-		print lista_resposta
+#		print lista_resposta
 	else:
 		lista_resposta = mi[t.index(listand[0])]
 
 	resposta = []
 	for i in range(len(lista_resposta)):
 		if( lista_resposta[i] == 1):
-			resposta.add(i)
+			resposta.append(i+1)
 	return resposta
 
 print process(matriz_incidencia,tokens,q)
+print process(matriz_incidencia,tokens,u"xadrez peã")
 
-
-	
 
 
