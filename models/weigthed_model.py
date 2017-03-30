@@ -14,15 +14,15 @@ class WeigthedModel(BaseModel):
     def preprocess_database(self,database):
         self.index = []
         for doc in database:
-            token_list = super(BooleanModel,self).tokenizador(doc)
-            self.index.append(super(BooleanModel,self).normalizar(token_list))
+            token_list = super(WeigthedModel,self).tokenizador(doc)
+            self.index.append(super(WeigthedModel,self).normalizar(token_list))
 
         # this list is a position token dicionary 
         # of lines in the incidence matrix 
         self.tokens = []
         for doc_index in self.index:
             for word in doc_index:
-                if not(word in tokens):
+                if not(word in self.tokens):
                     self.tokens.append(word)
 
         self.n_docs   = len(self.index)
@@ -33,11 +33,11 @@ class WeigthedModel(BaseModel):
         # weigth matrix
         self.wm = zeros(self.n_docs*self.n_tokens).reshape(self.n_tokens,self.n_docs)
         # vector n
-        self.n = np.zeros(self.n_tokens)
+        self.n  = zeros(self.n_tokens)
 
         for i in range(len(self.index)):
-            for word in index[i]:
-                im[self.tokens.index(word),i] += 1
+            for word in self.index[i]:
+                self.im[self.tokens.index(word),i] += 1
 
         # Contain the number of docs that a token appeared
         for i in range(self.im.shape[0]):
@@ -49,16 +49,15 @@ class WeigthedModel(BaseModel):
         for i in range(self.im.shape[0]):
             for j in range(self.im.shape[1]):
                 if not( self.im[i,j] == 0):
-                    self.wm[i,j] = (1 + log2(self.wm[i,j]))* \
-                                    log2(self.n_docs/self.n[i])
+                    self.wm[i,j] = (1 + log2(self.im[i,j]))*log2(self.n_docs/self.n[i])
 
         return self
 
 
     # preprocessing of query
-    def preprocess_query(query):
-        token_list = super(BooleanModel,self).tokenizador(query)
-        query_index = super(BooleanModel,self).normalizar(token_list)
+    def preprocess_query(self,query):
+        token_list  = super(WeigthedModel,self).tokenizador(query)
+        query_index = super(WeigthedModel,self).normalizar(token_list)
 
         # this list is a position token dicionary 
         # of lines in the incidence matrix 
@@ -72,7 +71,7 @@ class WeigthedModel(BaseModel):
         # Creating incidence matrix for the query
         im = zeros(n_tokens)
         # Creating weigth matrix for the query
-        wp = zeros(n_tokens)
+        wm = zeros(n_tokens)
 
         for word in query_index:
             im[tokens.index(word)] += 1
@@ -80,7 +79,7 @@ class WeigthedModel(BaseModel):
         # Calculating the weigth using the third schema
         for j in range(im.shape[0]):
             if not( im[j] == 0):
-                wm[j] = (1 + log2(im[j]))*log2(self.n_docs/n[self.tokens.index(tokens[j])])
+                wm[j] = (1 + log2(im[j]))*log2(self.n_docs/self.n[self.tokens.index(tokens[j])])
 
-        return(im,wm)
+        return(im,wm,tokens)
 

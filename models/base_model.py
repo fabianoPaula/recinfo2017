@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-class ModeloBase:
+class BaseModel(object):
 
     def __init__(self):
         self.stopwords = []
@@ -17,7 +17,7 @@ class ModeloBase:
         next_sep = 0
         while(last_sep < len(string)):
             if( next_sep == len(string)):
-                token_list.append(palavra[last_sep+1:next_sep])
+                token_list.append(string[last_sep+1:next_sep])
                 break
             if( string[next_sep] in self.separators ):
                 token_list.append(string[last_sep+1:next_sep])
@@ -25,15 +25,15 @@ class ModeloBase:
                 if next_sep < len(string):
                     next_sep += 1
             else:
-                if next_sep < len(palavra):
+                if next_sep < len(string):
                     next_sep += 1
         token_list_cleanned = []
         for word in token_list:
             if( not (word == '') ):
                 token_list_cleanned.append(word)
-        return lista_tokens_sem_vazios
+        return token_list_cleanned
 
-    def normalizar(self,lista_tokens):
+    def normalizar(self,token_list):
         token_list_without_stopwords = []
         for word in token_list:
             if(not(word.lower() in self.stopwords) ):
