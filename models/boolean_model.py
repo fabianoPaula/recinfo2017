@@ -41,8 +41,8 @@ class BooleanModel(BaseModel):
     def preprocess_database(self,database):
         self.index = []
         for doc in database:
-            token_list = super(BooleanModel,self).tokenizador(doc)
-            self.index.append(super(BooleanModel,self).normalizar(token_list))
+            token_list = super(BooleanModel,self).tokenizer(doc)
+            self.index.append(super(BooleanModel,self).normalizer(token_list))
 
         self.tokens = []
         for doc_index in self.index:

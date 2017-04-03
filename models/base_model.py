@@ -5,13 +5,18 @@ class BaseModel(object):
     def __init__(self):
         self.stopwords = []
         self.separators = []
-        
-    def __init__(self,stopwords,separators):
+        self.steammer = None
+
+    def __init__(self,stopwords,separators,steammer):
         self.stopwords  = stopwords
         self.separators = separators 
+        self.steammer   = steammer 
+
+    def steamming(self,word):
+        print "Not implemented"
         
 
-    def tokenizador(self,string):
+    def tokenizer(self,string):
         token_list = []
         last_sep = -1
         next_sep = 0
@@ -33,10 +38,21 @@ class BaseModel(object):
                 token_list_cleanned.append(word)
         return token_list_cleanned
 
-    def normalizar(self,token_list):
+    def normalizer(self,token_list):
         token_list_without_stopwords = []
         for word in token_list:
             if(not(word.lower() in self.stopwords) ):
                 token_list_without_stopwords.append(word.lower())
         return token_list_without_stopwords
 
+    #-------------------------------------------------------------------------
+    #             PROCESS AND PREPROCESS FUNCTIONS
+    #-------------------------------------------------------------------------
+
+    # Preprocessing of database
+    def preprocess_database(self,database):
+        print "Not implemented! "
+
+    # preprocessing of query
+    def preprocess_query(self,query):
+        print "Not Implemented! "

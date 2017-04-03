@@ -14,8 +14,8 @@ class WeigthedModel(BaseModel):
     def preprocess_database(self,database):
         self.index = []
         for doc in database:
-            token_list = super(WeigthedModel,self).tokenizador(doc)
-            self.index.append(super(WeigthedModel,self).normalizar(token_list))
+            token_list = super(WeigthedModel,self).tokenizer(doc)
+            self.index.append(super(WeigthedModel,self).normalizer(token_list))
 
         # this list is a position token dicionary 
         # of lines in the incidence matrix 
@@ -56,8 +56,8 @@ class WeigthedModel(BaseModel):
 
     # preprocessing of query
     def preprocess_query(self,query):
-        token_list  = super(WeigthedModel,self).tokenizador(query)
-        query_index = super(WeigthedModel,self).normalizar(token_list)
+        token_list  = super(WeigthedModel,self).tokenizer(query)
+        query_index = super(WeigthedModel,self).normalizer(token_list)
 
         # this list is a position token dicionary 
         # of lines in the incidence matrix 

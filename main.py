@@ -15,7 +15,7 @@ def main():
     q=u"xadrez peã caval torr"; #consulta
     separadores=[u" ",u",",u".",u"!",u"?"]; #separadores para tokenizacao
 
-    model = WeigthedModel(stopwords,separadores)
+    model = WeigthedModel(stopwords,separadores,None)
 
     model.preprocess_database(M)
 
