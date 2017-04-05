@@ -25,6 +25,8 @@ class WeigthedModel(BaseModel):
                 if not(word in self.tokens):
                     self.tokens.append(word)
 
+        self.tokens = sorted(self.tokens)
+
         self.n_docs   = len(self.index)
         self.n_tokens = len(self.tokens)
 
@@ -59,14 +61,13 @@ class WeigthedModel(BaseModel):
         token_list  = super(WeigthedModel,self).tokenizer(query)
         query_index = super(WeigthedModel,self).normalizer(token_list)
 
-        # this list is a position token dicionary 
         # of lines in the incidence matrix 
         tokens = []
         for word in query_index:
             if not(word in tokens):
                 tokens.append(word)
 
-        n_tokens = len(tokens)
+        n_tokens = len(self.tokens)
 
         # Creating incidence matrix for the query
         im = zeros(n_tokens)
@@ -74,12 +75,12 @@ class WeigthedModel(BaseModel):
         wm = zeros(n_tokens)
 
         for word in query_index:
-            im[tokens.index(word)] += 1
+            im[self.tokens.index(word)] += 1
 
         # Calculating the weigth using the third schema
         for j in range(im.shape[0]):
             if not( im[j] == 0):
-                wm[j] = (1 + log2(im[j]))*log2(self.n_docs/self.n[self.tokens.index(tokens[j])])
+                wm[j] = (1 + log2(im[j]))*log2(self.n_docs/self.n[j])
 
-        return(im,wm,tokens)
+        return(im,wm,self.tokens)
 
