@@ -2,12 +2,7 @@
 
 class BaseModel(object):
 
-    def __init__(self):
-        self.stopwords = []
-        self.separators = []
-        self.steammer = None
-
-    def __init__(self,stopwords,separators,steammer):
+    def __init__(self,stopwords = [],separators = [],steammer = None):
         self.stopwords  = stopwords
         self.separators = separators 
         self.steammer   = steammer 
